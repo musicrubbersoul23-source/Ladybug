@@ -1,202 +1,162 @@
-```react
-import React, { useState, useEffect } from 'react';
-import { Heart, Mail, Home, Sun, Bird, Dog, ChevronRight, Flower2, Sparkles } from 'lucide-react';
-
-const App = () => {
-  const [page, setPage] = useState('landing');
-  const [letterOpen, setLetterOpen] = useState(false);
-
-  // Background SVG Component for the Artistic Mountain Scene
-  const ScenicBackground = () => (
-    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-      <svg viewBox="0 0 800 600" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#ff9a9e', stopOpacity: 0.5 }} />
-            <stop offset="100%" style={{ stopColor: '#fecfef', stopOpacity: 0.2 }} />
-          </linearGradient>
-        </defs>
-        <rect width="800" height="600" fill="url(#skyGradient)" />
-
-        {/* Mountains */}
-        <path d="M-100,600 L150,220 L400,600 Z" fill="#e35d5d" opacity="0.1" />
-        <path d="M200,600 L500,180 L800,600 Z" fill="#d14d72" opacity="0.15" />
-        <path d="M450,600 L750,280 L1000,600 Z" fill="#e35d5d" opacity="0.1" />
-
-        {/* Soft Rolling Hills */}
-        <path d="M-100,600 C200,480 600,480 900,600 Z" fill="#ffdfd3" />
-        
-        {/* Abstract Raspberry Tree clusters */}
-        <circle cx="120" cy="460" r="45" fill="#d14d72" opacity="0.15" />
-        <circle cx="680" cy="480" r="35" fill="#d14d72" opacity="0.1" />
-      </svg>
-    </div>
-  );
-
-  const LandingPage = () => (
-    <div className="relative min-h-screen bg-[#fff5f5] flex flex-col items-center justify-center p-6 overflow-hidden">
-      <ScenicBackground />
-      
-      {/* Floating Nature Elements */}
-      <div className="absolute top-24 left-[15%] animate-float">
-        <Bird className="text-[#d14d72] opacity-40" size={32} />
-      </div>
-      <div className="absolute top-48 right-[10%] animate-pulse duration-2000">
-        <Sun className="text-[#ff9a9e] opacity-30" size={80} />
-      </div>
-
-      <div className="z-10 text-center">
-        {/* Mountain Home Icon Area */}
-        <div className="mb-12 flex justify-center scale-110">
-          <div className="relative">
-            <div className="bg-white/40 p-8 rounded-full backdrop-blur-sm border border-white/50 shadow-xl">
-              <Home className="text-[#d14d72] w-20 h-20" />
-            </div>
-            <Dog className="absolute -bottom-2 -right-4 text-[#ff9a9e] animate-bounce" size={36} />
-          </div>
-        </div>
-
-        {/* Clean, Minimal Header */}
-        <h1 className="text-6xl md:text-8xl font-serif text-[#d14d72] mb-12 tracking-tight">
-          For <span className="text-[#ff9a9e]">Ladybug</span>
-        </h1>
-
-        {/* The Letterbox CTA */}
-        <div className="flex flex-col items-center">
-          <button 
-            onClick={() => setPage('letter')}
-            className="group relative bg-[#d14d72] hover:bg-[#b03a5b] text-white px-12 py-6 rounded-full text-2xl font-medium transition-all duration-500 transform hover:scale-105 hover:shadow-[0_15px_35px_rgba(209,77,114,0.3)] flex items-center gap-4 overflow-hidden"
-          >
-            <span className="relative z-10">Open Letter</span>
-            <Mail className="relative z-10 w-7 h-7 group-hover:translate-x-1 transition-transform" />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-          </button>
-          
-          <div className="mt-12 flex gap-6 text-[#d14d72]/40">
-            <Heart size={24} fill="currentColor" className="animate-pulse delay-75" />
-            <Heart size={24} fill="currentColor" className="animate-pulse delay-150" />
-            <Heart size={24} fill="currentColor" className="animate-pulse delay-300" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const LetterPage = () => (
-    <div className="min-h-screen bg-[#d14d72] flex items-center justify-center p-4 md:p-8 overflow-y-auto">
-      <button 
-        onClick={() => setPage('landing')}
-        className="fixed top-8 left-8 text-white/80 hover:text-white flex items-center gap-2 transition-colors z-50 bg-black/10 px-4 py-2 rounded-full backdrop-blur-sm"
-      >
-        <ChevronRight className="rotate-180" size={20} /> Close Letter
-      </button>
-
-      <div className={`relative w-full max-w-2xl bg-[#fffcf9] rounded-3xl shadow-2xl transition-all duration-1000 transform ${letterOpen ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-20 opacity-0 scale-95'}`}>
-        
-        {/* Envelope Detail */}
-        <div className="absolute -top-3 left-10 right-10 h-6 bg-[#ffdfd3] rounded-t-3xl z-0"></div>
-
-        <div className="p-8 md:p-16 relative z-10 border-[12px] border-[#ffdfd3] m-3 rounded-2xl">
-          {/* Artistic Accents */}
-          <Flower2 className="absolute top-6 right-6 text-[#ff9a9e]/20" size={50} />
-          <Flower2 className="absolute bottom-6 left-6 text-[#ff9a9e]/20 rotate-180" size={50} />
-          
-          <div className="font-serif text-[#4a4a4a] leading-relaxed space-y-8">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-4xl text-[#d14d72] font-semibold italic">Dear Raspberry,</h2>
-              <Sparkles className="text-[#ff9a9e] animate-spin-slow" />
-            </div>
-
-            <p className="text-xl md:text-2xl">
-              I would like share love and peace with you my sweet love. I'm fluid, flow where the slope is...
-            </p>
-
-            <p className="text-xl md:text-2xl">
-              You are awesome, you are beautiful like a <span className="text-[#d14d72] font-bold">ladybug</span>...
-              I like you and I keep loving you forever 🧡🩷🧡🩷
-            </p>
-
-            <div className="bg-[#fff5f5] p-8 rounded-2xl border-l-8 border-[#d14d72] italic text-lg md:text-xl shadow-inner text-slate-700">
-              "I'm sorry Babu, you get hurt from my behaviour. I improve and try will not to make it again. We are happy together."
-            </div>
-
-            <p className="text-xl md:text-2xl">
-              I want to hold your hand and being with you, cuddling with you, exploring life with you, live with you...
-            </p>
-
-            <div className="text-center py-10">
-               <div className="text-5xl mb-3 animate-bounce">🌺 જાસૂદ 🌺</div>
-               <p className="text-[#d14d72] font-medium tracking-wide">Flower for little princess</p>
-            </div>
-
-            <p className="text-xl md:text-2xl font-medium">
-              Thank you for your love 💕 😘
-            </p>
-
-            <div className="mt-12 pt-10 border-t-2 border-[#ffdfd3] flex justify-between items-end">
-              <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-slate-400 mb-2">Always Yours</p>
-                <p className="text-4xl font-serif text-[#d14d72]">Loving Cream</p>
-                <div className="flex gap-2 mt-4">
-                  <span className="w-8 h-8 rounded-full bg-[#ff9a9e] border-2 border-white shadow-sm"></span>
-                  <span className="w-8 h-8 rounded-full bg-[#d14d72] border-2 border-white shadow-sm"></span>
-                </div>
-              </div>
-              <div className="text-[#ff9a9e] opacity-40">
-                <Heart size={48} fill="currentColor" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  useEffect(() => {
-    if (page === 'letter') {
-      const timer = setTimeout(() => setLetterOpen(true), 150);
-      return () => clearTimeout(timer);
-    } else {
-      setLetterOpen(false);
-    }
-  }, [page]);
-
-  return (
-    <div className="font-sans selection:bg-[#ff9a9e] selection:text-white">
-      {page === 'landing' ? <LandingPage /> : <LetterPage />}
-      
-      <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap');
-        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Ladybug - A Forever Memory</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap">
+    <style>
+        body { margin: 0; padding: 0; overflow-x: hidden; }
         .font-serif { font-family: 'Playfair Display', serif; }
         .font-sans { font-family: 'Inter', sans-serif; }
-
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) translateX(0px); }
-          50% { transform: translateY(-25px) translateX(10px); }
+        
+        @keyframes float-bird {
+            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+            50% { traynsform: translateY(-40px) translateX(20px) rotate(5deg); }
         }
-
-        .animate-float {
-          animation: float 8s ease-in-out infinite;
+        @keyframes float-slow {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.1; }
+            90% { opacity: 0.1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
-
-        .animate-spin-slow {
-          animation: spin 10s linear infinite;
+        @keyframes letter-reveal {
+            0% { transform: translateY(100px) scale(0.9); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
         }
-
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
+        .animate-float-bird { animation: float-bird 10s ease-in-out infinite; }
+        .animate-float-slow { animation: float-slow linear infinite; }
+        .animate-letter-reveal { animation: letter-reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .animate-spin-slow { animation: spin-slow 12s linear infinite; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
 
-        .duration-2000 {
-          animation-duration: 2s;
-        }
-      `}} />
-    </div>
-  );
-};
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
 
-export default App;
+        // Custom SVG Icons
+        const Heart = ({ size = 24, fill = "none", className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        );
+        const Mail = ({ size = 24, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        );
+        const HomeIcon = ({ size = 24, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        );
+        const Bird = ({ size = 24, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 7c.5 0 1 2.5 1 2.5s2.5 0 2.5 1-2.5 1-2.5 1 0 2.5-1 2.5-1-2.5-1-2.5-2.5 0-2.5-1 2.5-1 2.5-1 0-2.5 1-2.5z"/><path d="M7 7c.5 0 1 2.5 1 2.5s2.5 0 2.5 1-2.5 1-2.5 1 0 2.5-1 2.5-1-2.5-1-2.5-2.5 0-2.5-1 2.5-1 2.5-1 0-2.5 1-2.5z"/></svg>
+        );
+        const Dog = ({ size = 24, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M10 5.172C10 3.42 11.42 2 13.172 2h1.656C16.58 2 18 3.42 18 5.172v.656C18 7.58 16.58 9 14.828 9h-1.656C11.42 9 10 7.58 10 5.828v-.656Z"/><path d="M4.427 19.536a2 2 0 0 0 2.828 0l2.172-2.172"/><path d="M14.828 9c-.405 0-.796.076-1.156.216l-5.136 5.136a2 2 0 0 1-2.828 0l-1.414-1.414a2 2 0 0 1 0-2.828l5.136-5.136"/><path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg>
+        );
 
-```
+        const App = () => {
+            const [page, setPage] = useState('landing');
+            const [isHovered, setIsHovered] = useState(false);
+
+            const particles = useMemo(() => 
+                Array.from({ length: 20 }).map((_, i) => ({
+                    id: i,
+                    left: Math.random() * 100 + '%',
+                    top: Math.random() * 100 + '%',
+                    size: Math.random() * 15 + 5,
+                    delay: Math.random() * 5 + 's',
+                    duration: Math.random() * 10 + 10 + 's'
+                }))
+            , []);
+
+            const ScenicBackground = () => (
+                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#ffdfd3] via-[#fff5f5] to-white" />
+                    {particles.map(p => (
+                        <div key={p.id} className="absolute rounded-full bg-[#d14d72] animate-float-slow"
+                             style={{ left: p.left, top: p.top, width: p.size, height: p.size, animationDelay: p.delay, animationDuration: p.duration }} />
+                    ))}
+                    <svg viewBox="0 0 800 600" className="w-full h-full opacity-40" preserveAspectRatio="xMidYMid slice">
+                        <path d="M-100,600 L200,150 L500,600 Z" fill="#e35d5d" opacity="0.1" />
+                        <path d="M150,600 L450,100 L750,600 Z" fill="#d14d72" opacity="0.15" />
+                        <path d="M400,600 L700,200 L1000,600 Z" fill="#e35d5d" opacity="0.1" />
+                        <path d="M-100,600 C150,450 450,450 900,600 Z" fill="#ffdfd3" opacity="0.5" />
+                    </svg>
+                </div>
+            );
+
+            const LandingPage = () => (
+                <div className="relative min-h-screen flex flex-col items-center justify-center p-6 overflow-hidden">
+                    <ScenicBackground />
+                    <div className="absolute top-[20%] left-[10%] animate-float-bird text-[#d14d72] opacity-30"><Bird size={48} /></div>
+                    
+                    <div className="z-105 text-center flex flex-col items-center">
+                        <div className="relative mb-16 transform transition-transform duration-700 hover:scale-110">
+                            <div className="bg-white/60 p-12 rounded-full backdrop-blur-md border border-white/80 shadow-2xl relative">
+                                <HomeIcon className="text-[#d14d72] w-24 h-24" />
+                                <div className="absolute -bottom-2 -right-2 bg-white p-3 rounded-full shadow-lg border border-[#ffdfd3]">
+                                    <Dog className="text-[#ff9a9e]" size={32} />
+                                </div>
+                                <Heart size={20} fill="#d14d72" className="absolute -top-4 left-0 text-[#d14d72] animate-bounce opacity-40" />
+                            </div>
+                        </div>
+
+                        <h1 className="text-7xl md:text-9xl font-serif text-[#d14d72] mb-16">
+                            For <span className="italic text-[#ff9a9e]">Ladybug</span>
+                        </h1>
+
+                        <button 
+                            onClick={() => setPage('letter')}
+                            onMouseEnter={() => setIsHovered(true)}
+                            onMouseLeave={() => setIsHovered(false)}
+                            className="group relative bg-[#d14d72] hover:bg-[#b03a5b] text-white px-16 py-8 rounded-full text-3xl font-serif italic transition-all duration-500 transform hover:scale-105 shadow-2xl flex items-center gap-6"
+                        >
+                            <span>Open Memory</span>
+                            {isHovered ? <Heart size={32} fill="currentColor" /> : <Mail size={32} />}
+                        </button>
+                    </div>
+                </div>
+            );
+
+            const LetterPage = () => (
+                <div className="min-h-screen bg-[#d14d72] flex items-center justify-center p-4 md:p-8">
+                    <button onClick={() => setPage('landing')} className="fixed top-8 left-8 text-white/70 hover:text-white flex items-center gap-2 z-50 bg-black/10 px-6 py-3 rounded-full backdrop-blur-md">
+                        <Heart size={18} /> Back
+                    </button>
+
+                    <div className="relative w-full max-w-2xl animate-letter-reveal">
+                        <div className="bg-[#fffcf9] rounded-3xl shadow-2xl overflow-hidden border-[16px] border-[#ffdfd3] p-8 md:p-16 font-serif text-[#3d3d3d] space-y-8">
+                            <h2 className="text-4xl md:text-5xl text-[#d14d72] italic font-semibold">Dear Raspberry,</h2>
+                            <p className="text-2xl md:text-3xl">I would like share love and peace with you my sweet love. I'm fluid, flow where the slope is...</p>
+                            <p className="text-2xl md:text-3xl">You are awesome, you are beautiful like a <span className="text-[#d14d72] font-bold underline decoration-[#ff9a9e] underline-offset-8">ladybug</span>...</p>
+                            <div className="bg-[#fff5f5] p-8 rounded-3xl border-l-[12px] border-[#d14d72] italic text-xl md:text-2xl text-slate-700">"I'm sorry Babu, you get hurt from my behaviour. I improve and try will not to make it again."</div>
+                            <p className="text-2xl md:text-3xl">I want to hold your hand and being with you, cuddling with you, exploring life with you, live with you...</p>
+                            <div className="text-center py-10 bg-gradient-to-r from-transparent via-[#ffdfd3]/20 to-transparent rounded-full">
+                                <div className="text-6xl mb-2 animate-bounce">🌺 જાસૂદ 🌺</div>
+                                <p className="text-[#d14d72] italic text-xl">Flower for my little princess</p>
+                            </div>
+                            <p className="text-2xl md:text-3xl font-medium">Thank you for your love 💕 😘</p>
+                            <div className="pt-10 border-t-2 border-[#ffdfd3]">
+                                <p className="text-4xl text-[#d14d72] italic">Loving Cream</p>
+                                <p className="text-orange-400 mt-2 text-2xl">🩷🧡</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            return page === 'landing' ? <LandingPage /> : <LetterPage />;
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
